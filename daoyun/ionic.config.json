@@ -1,0 +1,7 @@
+{
+  "name": "daoyun",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "angular"
+}
