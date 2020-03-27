@@ -1,0 +1,180 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>登录页</title>
+<style>
+body {
+	margin: 0;
+	width: 100%;
+	height: 100vh;
+	font-family: "Exo", sans-serif;
+	color: #00CCCC;
+	background: linear-gradient(-45deg, #00CCCC, #66FF99, #00FFFF, #0099FF);
+	background-size: 400% 400%;
+	animation: gradientBG 15s ease infinite;
+}
+
+@keyframes gradientBG {
+	0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
+}
+
+.container {
+	width: 100%;
+	position: absolute;
+	top: 35%;
+	text-align: center;
+}
+
+h1 {
+	font-weight: 300;
+}
+
+h3 {
+	color: #eee;
+	font-weight: 100;
+}
+
+h5 {
+	color:#eee;
+	font-weight:300;
+}
+
+a,
+a:hover {
+	text-decoration: none;
+	color: #ddd;
+}
+.lg {
+	width: 468px;
+	height: 468px;
+	margin: 100px auto;
+	font-size: 24px;
+}
+.lg_top {
+	height: 80px;
+	width: 468px;
+	font-size: 42px;
+	font-family: "楷体";
+	text-align: center;
+	color: #000000;
+}
+.lg_end {
+	height: 80px;
+	width: 468px;
+	font-size: 16px;
+	text-align:center;
+	color:#09F;
+}
+.lg_main {
+	width: 400px;
+	height: 180px;
+	margin: 0 25px;
+}
+.lg_m_1 {
+	width: 290px;
+	height: 100px;
+	padding: 60px 55px 20px 55px;
+}
+.ur {
+	height: 35px;
+	border: 0;
+	color: #666;
+	width: 232px;
+	padding-left: 10px;
+	font-size: 16pt;
+	font-family: Arial, Helvetica, sans-serif;
+	background-image: url(picture/user.png);
+	background-repeat: no-repeat;
+	margin-top: 4px;
+	margin-right: 28px;
+	margin-bottom: 4px;
+	margin-left: 28px;
+}
+.pw {
+	height: 35px;
+	border: 0;
+	color: #666;
+	width: 232px;
+	padding-left: 10px;
+	font-size: 16pt;
+	font-family: Arial, Helvetica, sans-serif;
+	background-image: url(picture/password.png);
+	background-repeat: no-repeat;
+	margin-top: 4px;
+	margin-right: 28px;
+	margin-bottom: 4px;
+	margin-left: 28px;
+}
+.bn {
+	width: 200px;
+	height: 56px;
+	border: 0;
+	display: block;
+	font-size: 18px;
+	color: #FFF;
+	font-family: Arial, Helvetica, sans-serif;
+	font-weight: bolder;
+	background-color: #09F;
+	background-repeat: no-repeat;
+	margin-right: auto;
+	margin-left: auto;
+}
+.bn1 {
+	width: 100px;
+	height: 24px;
+	border: 0;
+	display: block;
+	font-size: 18px;
+	color: #FFF;
+	font-family: Arial, Helvetica, sans-serif;
+	font-weight: bolder;
+	background-color: #09F;
+	background-repeat: no-repeat;
+	margin-right: auto;
+	margin-left: auto;
+}
+.lg_foot {
+	height: 80px;
+	width: 330px;
+	padding: 6px 68px 0 68px;
+}
+</style>
+</head>
+<body>
+<div class="lg">
+  <form action="/login" method="POST">
+    <div class="lg_top">到云</div>
+    <div class="lg_main">
+      <div class="lg_m_1">
+        <input name="username" placeholder="账号" class="ur" />
+        <input name="password" type="password" placeholder="密码" class="pw" />
+      </div>
+    </div>
+    <div class="lg_foot">
+      <input type="submit" value="登录" class="bn" />
+    </div>
+  </form>
+
+  <table width="100%" border="0" cellpadding="0" cellspacing="5">
+    <tr>
+      <td>
+          <input type="button" value="注册" class="bn1" onclick="window.open('./register.html','_self')"/>
+      </td>
+      <td>
+        <input type="button" value="忘记密码？" class="bn1" onclick="window.open('./Forgot-password.html','_self')"/>
+      </td>
+    </tr>
+  </table>
+
+</div>
+</body>
+</html>

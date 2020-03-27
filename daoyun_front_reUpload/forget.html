@@ -1,0 +1,129 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>教师注册</title>
+<style>
+body {
+	margin: 0;
+	width: 100%;
+	height: 100vh;
+	font-family: "Exo", sans-serif;
+	color: #00CCCC;
+	background: linear-gradient(-45deg, #00CCCC, #66FF99, #00FFFF, #0099FF);
+	background-size: 400% 400%;
+	animation: gradientBG 15s ease infinite;
+}
+
+@keyframes gradientBG {
+	0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
+}
+
+.container {
+	width: 100%;
+	position: absolute;
+	top: 35%;
+	text-align: center;
+}
+
+h1 {
+	font-weight: 300;
+}
+
+h3 {
+	color: #eee;
+	font-weight: 100;
+}
+
+h5 {
+	color:#eee;
+	font-weight:300;
+}
+
+a,
+a:hover {
+	text-decoration: none;
+	color: #ddd;
+}
+.ur {
+	height: 35px;
+	border: 0;
+	color: #666;
+	width: 232px;
+	padding-left: 10px;
+	font-size: 16pt;
+	font-family: Arial, Helvetica, sans-serif;
+	background-image: url(picture/user.png);
+	background-repeat: no-repeat;
+	margin-top: 4px;
+	margin-right: 28px;
+	margin-bottom: 4px;
+	margin-left: 28px;
+}
+.pw {
+	height: 35px;
+	border: 0;
+	color: #666;
+	width: 232px;
+	padding-left: 10px;
+	font-size: 16pt;
+	font-family: Arial, Helvetica, sans-serif;
+	background-image: url(picture/password.png);
+	background-repeat: no-repeat;
+	margin-top: 4px;
+	margin-right: 28px;
+	margin-bottom: 4px;
+	margin-left: 28px;
+}
+.bn {
+	width: 200px;
+	height: 56px;
+	border: 0;
+	display: block;
+	font-size: 18px;
+	color: #FFF;
+	font-family: Arial, Helvetica, sans-serif;
+	font-weight: bolder;
+	background-color: #09F;
+	background-repeat: no-repeat;
+	margin-right: auto;
+	margin-left: auto;
+}
+</style>
+</head>
+<body>
+<form action="/register" method="POST">
+<table width="100%" border="0" cellpadding="0" cellspacing="5">
+  <tr>
+    <td height="200" align="center">&nbsp;</td>
+  </tr>
+  <tr>
+    <td align="center"><input name="userid" placeholder="账号" id="ui" class="ur"/></td>
+  </tr>
+  <tr>
+    <td align="center"><input type="button" value="获取验证码" /></td>
+  </tr>
+  <tr>
+    <td align="center"><input name="username" placeholder="验证码" id="un" class="ur"/></td>
+  </tr>
+  <tr>
+    <td align="center"><input name="password" type="password" placeholder="新密码" id="pw" class="pw"/></td>
+  </tr>
+  <tr>
+    <td align="center"><input name="again" type="password" placeholder="再次输入" id="ag" class="pw"/></td>
+  </tr>
+  <tr>
+    <td align="center"><input type="submit" value="确定" class="bn" /></td>
+  </tr>
+</table>
+</form>
+</body>
+</html>

@@ -1,0 +1,182 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>编辑页</title>
+<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+    
+<script type="text/javascript">
+var sel = "";
+function show_selected_item_val($item){
+	document.getElementById("name").value= $item.value;
+	sel = $item.id;
+	console.log(sel);
+}
+function addrole(){
+    var editTable=document.getElementById("role");
+    var j = editTable.rows.length-1;
+	var node0=document.createElement("label");
+	var node1=document.createElement("input");
+	node1.type = "radio";
+	node1.name = "radio";
+	node1.id = "radio_"+j;
+	node1.value = "未命名"+j;
+	node1.onclick = function(){show_selected_item_val(this);};
+	var node2=document.createElement("span");
+	node2.id = "radio_"+j+"_s";
+	node2.innerHTML = "未命名"+j;
+	node0.appendChild(node1);
+	node0.appendChild(node2);
+	var row=editTable.insertRow(j);
+	var cell1=row.insertCell(0);
+	cell1.appendChild(node0);
+}
+function OnInput(event) {
+    var c1=document.getElementById(sel);
+	c1.value = event.target.value;
+    var c2=document.getElementById(sel+"_s");
+	c2.innerHTML = event.target.value;
+}
+</script>
+</head>
+
+<body>
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+  <tr>
+    <td colspan="6" align="center">
+        <h2>角色权限设置</h2>
+        <br>
+    </td>
+  </tr>
+  <tr>
+    <td width="10%">
+    </td>
+    <td width="15%" align="right" valign="top">
+        <div class="btn-group" data-toggle="buttons" style="height:100%; width:100%">
+    	<table class="table table-striped" width="100%" id="role">
+          <tr>
+            <td>
+            <label>选择角色</label></td>
+          </tr>
+          <tr>
+            <td>
+            <label>
+                <input type="radio" name="radio" id="radio_1" value="管理员" onclick="show_selected_item_val(this)" /><span id="radio_1_s">管理员</span>
+            </label></td>
+          </tr>
+          <tr>
+            <td>
+            <label>
+                <input type="radio" name="radio" id="radio_2" value="教师" onclick="show_selected_item_val(this)" /><span id="radio_2_s">教师</span>
+            </label></td>
+          </tr>
+          <tr>
+            <td>
+            <label>
+                <input type="radio" name="radio" id="radio_3" value="学生" onclick="show_selected_item_val(this)" /><span id="radio_3_s">学生</span>
+            </label></td>
+          </tr>
+          <tr>
+            <td><button type="button" class="btn btn-default" onclick="addrole()">+新建</button></td>
+          </tr>
+        </table>
+        </div>	
+    </td>
+    <td width="3%">
+    </td>
+    <td width="3%" style="border-left: 1px solid black;">
+    </td>
+    <td width="55%" align="left">
+         <div>
+           <form class="bs-example bs-example-form" role="form">
+                <div class="input-group">
+                    <span class="input-group-addon">角色名</span>
+                    <input type="text" class="form-control" placeholder="twitterhandle" id="name" oninput="OnInput(event)">
+                </div>
+                <br>
+                
+                <table class="table table-striped" width="100%">
+                  <tr>
+                    <td>
+                    <h4>人员管理</h4>
+                    <div>
+                        <label class="checkbox-inline">
+                            <input type="checkbox" id="inlineCheckbox1" value="option1"> 查看列表
+                        </label>
+                        <label class="checkbox-inline">
+                            <input type="checkbox" id="inlineCheckbox2" value="option2"> 查看详情
+                        </label>
+                        <label class="checkbox-inline">
+                            <input type="checkbox" id="inlineCheckbox3" value="option3"> 新建员工
+                        </label>
+                        <label class="checkbox-inline">
+                            <input type="checkbox" id="inlineCheckbox3" value="option4"> 新建教师
+                        </label>
+                        <label class="checkbox-inline">
+                            <input type="checkbox" id="inlineCheckbox3" value="option5"> 注销用户
+                        </label>
+                        <label class="checkbox-inline">
+                            <input type="checkbox" id="inlineCheckbox3" value="option6"> 重置密码
+                        </label>
+                    </div>
+                    <br>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                    <h4>课程管理</h4>
+                    <div>
+                        <label class="checkbox-inline">
+                            <input type="checkbox" id="inlineCheckbox1" value="option7"> 查看列表
+                        </label>
+                        <label class="checkbox-inline">
+                            <input type="checkbox" id="inlineCheckbox2" value="option8"> 查看详情
+                        </label>
+                        <label class="checkbox-inline">
+                            <input type="checkbox" id="inlineCheckbox3" value="option9"> 新建课程
+                        </label>
+                        <label class="checkbox-inline">
+                            <input type="checkbox" id="inlineCheckbox3" value="option10"> 编辑课程
+                        </label>
+                        <label class="checkbox-inline">
+                            <input type="checkbox" id="inlineCheckbox3" value="option11"> 删除课程
+                        </label>
+                    </div>
+                    <br>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                    <h4>系统管理</h4>
+                    <div>
+                        <label class="checkbox-inline">
+                            <input type="checkbox" id="inlineCheckbox1" value="option12"> 重启系统
+                        </label>
+                        <label class="checkbox-inline">
+                            <input type="checkbox" id="inlineCheckbox2" value="option13"> 关闭系统
+                        </label>
+                    </div>
+                    <br>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                    <p><font color="#FF0000">请仔细确认相关权限！</font></p>
+                    <br>
+                    <div style="text-align:center">
+                    <button type="button" class="btn btn-primary">更新权限</button>
+                    <button type="button" class="btn btn-danger">删除角色</button>
+                    </div>
+                    </td>
+                  </tr>
+                </table>
+            </form>
+        </div>
+    </td>
+    <td>
+    </td>
+  </tr>
+</table>
+
+</body>
+</html>
