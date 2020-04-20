@@ -3,9 +3,236 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>无标题文档</title>
+  <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">  
+  <script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript">
+var all_page = 12;
+var page_addr = 1;
+var page_true = 0;
+var num = 15;
+var data = new Array();
+//更新页面内容
+function add(){
+  var tar = 1;
+  var editTable=document.getElementById("etable");
+  var j = editTable.rows.length;
+  for (var i = tar; i < j; i++){
+      editTable.deleteRow(tar);
+  }
+  //console.log(data);
+  for (var i = 0; i < data.length; i++){
+    var temp = data[i];
+    var node0 = document.createElement("a");
+    node0.setAttribute('href', './editpage-user_'+temp[0]);
+    node0.setAttribute('target', 'rgt');
+    node0.innerHTML = "编辑"
+    var row=editTable.insertRow(tar+i);
+    var cell0=row.insertCell(0);
+    var cell1=row.insertCell(1);
+    var cell2=row.insertCell(2);
+    var cell3=row.insertCell(3);
+    var cell4=row.insertCell(4);
+    cell0.innerHTML = temp[0];
+    cell1.innerHTML = temp[1];
+    cell2.innerHTML = temp[2];
+    cell3.innerHTML = temp[3];
+    cell4.appendChild(node0);
+    //console.log(temp);
+  }
+}
+//请求每页数据
+function get_data(p){
+  var page = page_true+p;
+  if (p == -1 || page == 1){
+    $("#a"+page_addr).removeClass("active");
+    page_addr = 1;
+    page_true = 0;
+    $("#a1").addClass("active");
+    for (var i = 1; i <= 5; i++){
+      document.getElementById("at"+i).innerHTML = i;
+    }
+  }
+  else if(p == -2 || page == all_page){
+    $("#a"+page_addr).removeClass("active");
+    page_addr = 5;
+    page_true = all_page-5;
+    $("#a5").addClass("active");
+    for (var i = 1; i <= 5; i++){
+      document.getElementById("at"+i).innerHTML = all_page-5+i;
+    }
+  }
+  else if (page == 2){
+    $("#a"+page_addr).removeClass("active");
+    page_addr = 2;
+    page_true = 0;
+    $("#a2").addClass("active");
+    for (var i = 1; i <= 5; i++){
+      document.getElementById("at"+i).innerHTML = i;
+    }
+  }
+  else if (page == all_page-1){
+    $("#a"+page_addr).removeClass("active");
+    page_addr = 4;
+    page_true = all_page-5;
+    $("#a4").addClass("active");
+    for (var i = 1; i <= 5; i++){
+      document.getElementById("at"+i).innerHTML = all_page-5+i;
+    }
+  }
+  else{
+    page_true = page-3
+    $("#a"+page_addr).removeClass("active");
+    page_addr = 3;
+    $("#a3").addClass("active");
+    for (var i = 1; i <= 5; i++){
+      document.getElementById("at"+i).innerHTML = page_true+i;
+    }
+  }
+  /*
+  var xhr = new XMLHttpRequest();
+  //监听响应
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState === 4 && (xhr.status === 200 || xhr.status === 304)) {
+      //console.log(xhr.responseText);
+      data = new Array();
+      s = xhr.responseText.split(';');
+      for (var i = 0; i < s.length; i++){
+        data[i] = s[i].split('/');
+      }
+      add();
+    }
+  };
+  var url = '/get?type=user&page=' + page + '&num=' + num;
+  xhr.open("GET", url, true);
+  xhr.send();
+  */
+}
+function jump_(){
+  page_true = 0;
+  get_data(Number(document.getElementById("jump").value));
+}
+//排序
+function sort_(f){
+  if (f == 0){
+    var uol = document.getElementById("id_button").name;
+    document.getElementById("name_flag").innerHTML = "";
+    if (uol == "up"){
+      data.sort(function(x, y){return Number(x[0])-Number(y[0]);});
+      document.getElementById("id_button").name = "down";
+      document.getElementById("id_flag").innerHTML = "▲";
+      add();
+    }
+    else {
+      data.sort(function(y, x){return Number(x[0])-Number(y[0]);});
+      document.getElementById("id_button").name = "up";
+      document.getElementById("id_flag").innerHTML = "▼";
+      add();
+    }
+  }
+  else if(f == 1){
+    var uol = document.getElementById("name_button").name;
+    document.getElementById("id_flag").innerHTML = "";
+    if (uol == "up"){
+      data.sort(function(x, y){return x[1].localeCompare(y[1]);});
+      document.getElementById("name_button").name = "down";
+      document.getElementById("name_flag").innerHTML = "▲";
+      add();
+    }
+    else {
+      data.sort(function(y, x){return x[1].localeCompare(y[1]);});
+      document.getElementById("name_button").name = "up";
+      document.getElementById("name_flag").innerHTML = "▼";
+      add();
+    }
+  }
+}
+function search(){
+  /*
+  var key = document.getElementById("key").value;
+  var xhr = new XMLHttpRequest();
+  //监听响应
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState === 4 && (xhr.status === 200 || xhr.status === 304)) {
+      //console.log(xhr.responseText);
+      data = new Array();
+      s = xhr.responseText.split(';');
+      for (var i = 0; i < s.length; i++){
+        data[i] = s[i].split('/');
+      }
+      add();
+    }
+  };
+  var url = '/get?type=user&key=' + key;
+  xhr.open("GET", url, true);
+  xhr.send();
+  */
+}
+window.onload = function(){
+  get_data(1);
+  s = "12/er/1/q;22/wre/2/w;01/3/3/r;03/sdf/4/u;23/cxv/1/q;11/ewr/2/w;12/bv/3/r;11/hgf/4/u;12/1/1/q;06/e3/2/w".split(';');
+  for (var i = 0; i < s.length; i++){
+    data[i] = s[i].split('/');
+  }
+}
+</script>
 </head>
 
-<body bgcolor="#FFFFCC">
-<p>用户管理</p>
+<body>
+  <div class="table-responsive" style="padding:0% 5%;">
+    <h2 class="sub-header">用户管理</h2>
+    <br>
+    <div>
+      <div class="input-group" style="width: 20%; float: left;">
+        <input type="text" class="form-control" id="key">
+        <span class="input-group-btn">
+            <button class="btn btn-default" type="button" onclick="search()">搜索</button>
+        </span>
+      </div>
+      <div style="float: right;">
+        <button type="button" class="btn btn-primary">+添加用户</button>
+      </div>
+    </div>
+    <br>
+    <br>
+    <table class="table table-striped" id="etable">
+      <tbody>
+        <tr>
+          <th width="15%"><a id="id_button" name="up" onclick="sort_(0)">学号</a><a id="id_flag">▼</a></th>
+          <th width="20%"><a id="name_button" name="up" onclick="sort_(1)">用户名</a><a id="name_flag">▼</a></th>
+          <th width="20%">课程</th>
+          <th width="20%">用户状态</th>
+          <th>编辑</th>
+        </tr>
+      </tbody>
+    </table>
+    <div style="float:right; top:10px; width:auto;">
+      <table>
+        <tr><td>
+          <div>
+            <ul class="pagination" id="mul">
+            <li><a onclick="get_data(-1)">&laquo;</a></li>
+            <li id="a1" class="active"><a onclick="get_data(1)" id="at1">1</a></li>
+            <li id="a2"><a onclick="get_data(2)" id="at2">2</a></li>
+            <li id="a3"><a onclick="get_data(3)" id="at3">3</a></li>
+            <li id="a4"><a onclick="get_data(4)" id="at4">4</a></li>
+            <li id="a5"><a onclick="get_data(5)" id="at5">5</a></li>
+            <li><a onclick="get_data(-2)">&raquo;</a></li>
+            </ul>
+          </div>
+        </td><td>
+          <div style="width: 100px;">
+            <div class="input-group">
+              <input type="text" class="form-control" id="jump">
+              <span class="input-group-btn">
+                <button class="btn btn-default" type="button" onclick="jump_()">
+                  Go!
+                </button>
+              </span>
+            </div>
+          </div>
+        </td></tr>
+      </table>
+    </div>
+  </div>
 </body>
 </html>

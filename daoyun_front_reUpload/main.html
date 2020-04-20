@@ -30,16 +30,20 @@ function load(){
     console.log('1');
     var oDiv = document.getElementById('rgt');
     oDiv.style.filter = 'alpha(opacity:0)';
-    oDiv.style.opacity = 0;//透明度为0
+    oDiv.style.opacity = 0;
     alpha = 0;
     start(100);//目标100%
+}
+window.onload = function(){
+    sessionStorage.setItem("id", "{{id}}");
+    window.open('top.html','top');
 }
 </script>
 </head>
 <frameset cols="16%,84%" border="0">
     <frame noresize src="index.html" scrolling="no">
-    <frameset rows="10%,*" >
-        <frame noresize src="top.html" scrolling="no">
+    <frameset rows="8%,*" >
+        <frame name="top" noresize src="top.html" scrolling="no">
         <frame name="rgt" id="rgt" src="home.html" onload="load()">
     </frameset>
 </frameset>

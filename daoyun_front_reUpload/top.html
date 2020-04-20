@@ -3,8 +3,16 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>无标题文档</title>
+<script>
+window.onload = function(){
+    document.getElementById("id").innerHTML = sessionStorage.getItem("id");
+}
+</script>
 </head>
 
 <body bgcolor="#EBC79E">
 </body>
+<div style="padding: 1% 5%;">
+    <a id="id" href="./home.html" target="rgt" style="float: right;"></a>
+</div>
 </html>

@@ -1,11 +1,88 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>无标题文档</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>菜单管理</title>
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+    <style type="text/css">
+       /* 改变CheckBox样式*/
+     input[type='checkbox']{
+         width: 20px;
+         height: 20px;
+ 
+         -webkit-appearance:none;
+         -moz-appearance: none;
+         border: 1px solid #c9c9c9;
+         border-radius: 3px;
+         outline: none;
+         color:white;
+         text-align: center;
+     }
+     input[type='checkbox']:before
+     {
+         content: '√ ';
+         color:transparent;
+     }
+     input[type=checkbox]:checked{
+         background-color: #30add6;
+     }
+     input[type=checkbox]:checked:before{
+         content: '√';
+         color:white;
+         font-weight: bold;
+     }
+ 
+ 
+    </style>
 </head>
+<body style="padding: 5% 5%;">
+<div class="warp" style="height: 220px;">
+    <ul id="container">
+    </ul>
+</div>
+<div>
+    <button type="button" class="btn btn-info">隐藏菜单</button>
+    <button type="button" class="btn btn-info">显示菜单</button>
+</div>
+ 
+<script type="text/javascript">
+ 
+    //结构
+    var json={
+        ' 系统设置':{
+            ' 用户管理':null,
+            ' 角色管理':null,
+            ' 菜单管理':null
+        },
+        ' 教学设置':{
+            ' 班课管理':null
+        },
+        ' 菜单设置':null
+    };
+ 
+//这里生成DOM
+    function generate(json,par)
+    {
+        for(var attr in json)
+        {
+            var ele=document.createElement('li');
+            if(!json[attr])
+                ele.innerHTML=' <input type="checkbox"></input>'+attr;
+            else
+            {
+                ele.innerHTML='<span><span class="switch-open" οnclick="toggle(this)"></span><input type="checkbox" οnclick="checkChange(this)"></input>'+attr+'</span>';
+                var nextpar=document.createElement('ul');
+                ele.appendChild(nextpar);
+                generate(json[attr],nextpar);
+            }
+            par.appendChild(ele);
+        }
+    }
+    generate(json,document.getElementById('container'));
 
-<body bgcolor="#FFFFCC">
-<p>菜单管理</p>
+</script>
+ 
+ 
+ 
 </body>
 </html>

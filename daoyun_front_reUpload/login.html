@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>登录页</title>
-<style>
+<style type="text/css">
 body {
 	margin: 0;
 	width: 100%;
@@ -63,7 +63,8 @@ a:hover {
 	height: 80px;
 	width: 468px;
 	font-size: 42px;
-	font-family: "楷体";
+	font-weight: bolder;
+	font-family: STSong;
 	text-align: center;
 	color: #000000;
 }
@@ -163,18 +164,9 @@ a:hover {
       <input type="submit" value="登录" class="bn" />
     </div>
   </form>
-
-  <table width="100%" border="0" cellpadding="0" cellspacing="5">
-    <tr>
-      <td>
-          <input type="button" value="注册" class="bn1" onclick="window.open('./register.html','_self')"/>
-      </td>
-      <td>
-        <input type="button" value="忘记密码？" class="bn1" onclick="window.open('./Forgot-password.html','_self')"/>
-      </td>
-    </tr>
-  </table>
-
+  <div class="lg_end">
+      <input type="button" value="注册" class="bn1" onclick="window.open('./register.html','_self')"/>
+  </div>
 </div>
 </body>
 </html>
