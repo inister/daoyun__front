@@ -1,0 +1,72 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>无标题文档</title>
+  <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">  
+  <script type="text/javascript" src="js/jquery.min.js"></script>
+  <script type="text/javascript" src="js/sjzd.js"></script>
+</head>
+
+<body>
+  <div class="table-responsive" style="padding:0% 5%;">
+    <h2 class="sub-header">数据字典</h2>
+    <br>
+    <div>
+      <div class="input-group" style="width: 20%; float: left;">
+        <input type="text" class="form-control" id="key">
+        <span class="input-group-btn">
+            <button class="btn btn-default" type="button" onclick="search()">搜索</button>
+        </span>
+      </div>
+      <div style="float: right;">
+        <button type="button" class="btn btn-primary" onclick="window.open('./editpage-data.html','_self')">+ 添加</button>
+        <button type="button" class="btn btn-danger" onclick="delete_()">× 删除</button>
+        <button type="button" class="btn btn-warning">应用</button>
+      </div>
+    </div>
+    <br>
+    <br>
+    <table class="table table-striped" id="etable">
+      <tbody>
+        <tr>
+          <th width="8%"><input type="checkbox" id="check" onclick="allcheck()"></th>
+          <th width="20%"><a id="id_button" name="up" onclick="sort_(0)">英文名</a><a id="id_flag">▼</a></th>
+          <th width="20%"><a id="name_button" name="up" onclick="sort_(1)">中文名</a><a id="name_flag">▼</a></th>
+          <th width="20%">类型</th>
+          <th width="20%">状态</th>
+          <th>查看</th>
+        </tr>
+      </tbody>
+    </table>
+    <div style="float:right; top:10px; width:auto;">
+      <table>
+        <tr><td>
+          <div>
+            <ul class="pagination" id="mul">
+            <li><a onclick="get_data(-1)">&laquo;</a></li>
+            <li id="a1" class="active"><a onclick="get_data(1)" id="at1">1</a></li>
+            <li id="a2"><a onclick="get_data(2)" id="at2">2</a></li>
+            <li id="a3"><a onclick="get_data(3)" id="at3">3</a></li>
+            <li id="a4"><a onclick="get_data(4)" id="at4">4</a></li>
+            <li id="a5"><a onclick="get_data(5)" id="at5">5</a></li>
+            <li><a onclick="get_data(-2)">&raquo;</a></li>
+            </ul>
+          </div>
+        </td><td>
+          <div style="width: 100px;">
+            <div class="input-group">
+              <input type="text" class="form-control" id="jump">
+              <span class="input-group-btn">
+                <button class="btn btn-default" type="button" onclick="jump_()">
+                  Go!
+                </button>
+              </span>
+            </div>
+          </div>
+        </td></tr>
+      </table>
+    </div>
+  </div>
+</body>
+</html>
