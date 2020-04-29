@@ -5,6 +5,7 @@ var page_deviation = 0;
 var len = 3;
 var num = 15;
 var data = new Array();
+var now_edit = "";
 //更新页面内容
 function add(page){
   var tar = 1;
@@ -13,7 +14,6 @@ function add(page){
   for (var i = tar; i < j; i++){
       editTable.deleteRow(tar);
   }
-  var num111 = data.length;
   if (data.length-(page-1)*len < len){
     num = data.length-(page-1)*len;
   }
@@ -23,10 +23,10 @@ function add(page){
   //console.log(data);
   for (var i = 0; i < num; i++){
     var temp = data[(page-1)*len+i];
-    var node0 = document.createElement("a");
-    node0.setAttribute('href', './editpage-user_'+temp[0]);
-    node0.setAttribute('target', 'rgt');
-    node0.innerHTML = "查看"
+    var node0 = document.createElement("input");
+    node0.setAttribute('type', "button");
+    node0.setAttribute('value', "查看");
+    node0.setAttribute('onclick', "show('"+temp[0]+"')");
     var node1 = document.createElement("input");
     node1.setAttribute('type', 'checkbox');
     node1.setAttribute('id', 'checkbox_'+i);
@@ -196,6 +196,123 @@ function delete_(){
   }
   sessionStorage.setItem("data", temp.join(';'));
   window.open('./r-sjzd.html','_self');
+}
+function show(item){
+  now_edit = item;
+  var data_s = sessionStorage.getItem(item+"-d").split(';');
+  var tar = 1;
+  var editTable=document.getElementById("stable");
+  var j = editTable.rows.length;
+  for (var i = tar; i < j; i++){
+      editTable.deleteRow(tar);
+  }
+  //console.log(data);
+  var i = 0
+  for (; i < data_s.length; i++){
+    var temp = data_s[i].split('/');
+    var node0 = document.createElement("input");
+    node0.setAttribute('type', "button");
+    node0.setAttribute('value', "修改");
+    node0.setAttribute('onclick', "chi_edit('"+(tar+i)+"')");
+    var node1 = document.createElement("input");
+    node1.setAttribute('type', "button");
+    node1.setAttribute('value', "删除");
+    node1.setAttribute('onclick', "chi_del('"+(tar+i)+"')");
+    var row=editTable.insertRow(tar+i);
+    var cell0=row.insertCell(0);
+    var cell1=row.insertCell(1);
+    var cell2=row.insertCell(2);
+    var cell3=row.insertCell(3);
+    cell0.innerHTML = temp[0];
+    cell1.innerHTML = temp[1];
+    cell2.appendChild(node0);
+    cell3.appendChild(node1);
+    //console.log(temp);
+  }
+  var node0 = document.createElement("input");
+  node0.setAttribute('type', "button");
+  node0.setAttribute('value', "追加");
+  node0.setAttribute('onclick', "chi_edit('"+(tar+i)+"')");
+  var row=editTable.insertRow(tar+i);
+  var cell0=row.insertCell(0);
+  var cell1=row.insertCell(1);
+  var cell2=row.insertCell(2);
+  var cell3=row.insertCell(3);
+  cell2.appendChild(node0);
+}
+function chi_edit(i){
+  var editTable=document.getElementById("stable");
+  editTable.deleteRow(i);
+  var node0 = document.createElement("input");
+  node0.setAttribute('type', "button");
+  node0.setAttribute('value', "确定");
+  node0.setAttribute('onclick', "chi_sure('"+i+"')");
+  var node1 = document.createElement("input");
+  node1.setAttribute('type', "button");
+  node1.setAttribute('value', "取消");
+  node1.setAttribute('onclick', "show('"+now_edit+"')");
+  var node2 = document.createElement("input");
+  node2.setAttribute('type', "text");
+  node2.setAttribute('id', "chiname");
+  var node3 = document.createElement("input");
+  node3.setAttribute('type', "text");
+  node3.setAttribute('id', "chitype");
+  var row=editTable.insertRow(i);
+  var cell0=row.insertCell(0);
+  var cell1=row.insertCell(1);
+  var cell2=row.insertCell(2);
+  var cell3=row.insertCell(3);
+  cell0.appendChild(node2);
+  cell1.appendChild(node3);
+  cell2.appendChild(node0);
+  cell3.appendChild(node1);
+}
+function chi_sure(i){
+  var editTable=document.getElementById("stable");
+  var node0 = document.createElement("input");
+  node0.setAttribute('type', "button");
+  node0.setAttribute('value', "修改");
+  node0.setAttribute('onclick', "chi_edit('"+i+"')");
+  var node1 = document.createElement("input");
+  node1.setAttribute('type', "button");
+  node1.setAttribute('value', "删除");
+  node1.setAttribute('onclick', "chi_del('"+i+"')");
+  var node2 = document.getElementById("chiname").value;
+  var node3 = document.getElementById("chitype").value;
+  editTable.deleteRow(i);
+  var row=editTable.insertRow(i);
+  var cell0=row.insertCell(0);
+  var cell1=row.insertCell(1);
+  var cell2=row.insertCell(2);
+  var cell3=row.insertCell(3);
+  cell0.innerHTML = node2;
+  cell1.innerHTML = node3;
+  cell2.appendChild(node0);
+  cell3.appendChild(node1);
+  chi_save();
+}
+function chi_del(i){
+  var editTable=document.getElementById("stable");
+  editTable.deleteRow(i);
+  chi_save();
+}
+function chi_save(){
+  var da = new Array();
+  var tb = document.getElementById('stable');
+  var rows = tb.rows;
+  for(var i = 1; i<rows.length; i++){
+    var dt = "";
+    if (rows[i].cells[0].innerHTML == "" || rows[i].cells[1].innerHTML == ""){
+      continue;
+    }
+    for(var j = 0; j<2; j++){
+      dt += rows[i].cells[j].innerHTML;
+      dt += '/';
+    }
+    da.push(dt);
+  }
+  sessionStorage.setItem(now_edit+"-d", da.join(';'));
+  show(now_edit);
 }
 window.onload = function(){
   var s = sessionStorage.getItem("data").split(';');

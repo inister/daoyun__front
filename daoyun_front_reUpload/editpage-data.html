@@ -16,6 +16,7 @@ function insert(){
     console.log(temp);
     data = temp.join('/') + ';' + data;
     sessionStorage.setItem("data", data);
+    sessionStorage.setItem(temp[0]+"-d", "");
     window.open('./r-sjzd.html','_self');
 }
 </script>

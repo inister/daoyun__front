@@ -5,64 +5,7 @@
 <title>无标题文档</title>
   <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">  
   <script type="text/javascript" src="js/jquery.min.js"></script>
-<script type="text/javascript">
-var page = 1;
-var data = "1/1/q;2/2/w;3/3/r;4/4/u;1/1/q;2/2/w;3/3/r;4/4/u;1/1/q;2/2/w".split(';');
-var num = 15;
-function add(p){
-  $("#a"+page).removeClass("active");
-  page = p;
-  $("#a"+page).addClass("active");
-  var tar = 1;
-  var editTable=document.getElementById("etable");
-  var j = editTable.rows.length;
-  for (var i = tar; i < j; i++){
-      editTable.deleteRow(tar);
-  }
-  //console.log(data);
-  for (var i = 0; i < num; i++){
-  var temp = data[page*num-num+i].split('/');
-  var node0 = document.createElement("a");
-  node0.setAttribute('href', './editpage-class_'+temp[0]);
-  node0.setAttribute('target', 'rgt');
-  node0.innerHTML = "编辑"
-    var row=editTable.insertRow(tar+i);
-    var cell0=row.insertCell(0);
-    var cell1=row.insertCell(1);
-    var cell2=row.insertCell(2);
-    var cell3=row.insertCell(3);
-    var cell4=row.insertCell(4);
-  cell0.innerHTML = i;
-  cell1.innerHTML = temp[0];
-  cell2.innerHTML = temp[1];
-  cell3.innerHTML = temp[2];
-  cell4.appendChild(node0);
-  //console.log(temp);
-  }
-}
-window.onload = function(){
-  var page_num = parseInt(data.length/num)+1;
-  var ul = document.getElementById("mul");
-  var i = 0;
-  for (i = 2; i <= page_num; i++){
-    var node0 = document.createElement("a");
-    node0.href="javascript:add("+i+");";
-    node0.innerHTML = i;
-    var node1 = document.createElement("li");
-    node1.id = 'a'+i;
-    node1.appendChild(node0);
-    ul.appendChild(node1);
-  }
-  var node0 = document.createElement("a");
-  node0.href="javascript:add("+(i-1)+");";
-  node0.innerHTML = "&raquo";
-  var node1 = document.createElement("li");
-  node1.id = 'a'+i;
-  node1.appendChild(node0);
-  ul.appendChild(node1);
-  add(1);
-}
-</script>
+  <script type="text/javascript" src="js/bkgl.js"></script>
 </head>
 
 <body>
@@ -77,20 +20,42 @@ window.onload = function(){
       <table class="table table-striped" id="etable">
         <tbody>
           <tr>
-            <th width="15%">#</th>
-            <th width="20%">课程号</th>
-            <th width="20%">课程名</th>
+            <th width="15%"><a id="id_button" name="up" onclick="sort_(0)">课程号</a><a id="id_flag">▼</a></th>
+            <th width="20%"><a id="name_button" name="up" onclick="sort_(1)">课程名</a><a id="name_flag">▼</a></th>
+            <th width="20%">课程类型</th>
             <th width="20%">开课状态</th>
             <th>编辑</th>
           </tr>
         </tbody>
       </table>
-    <div style="float:right; top:10px; width:auto;">
-    <ul class="pagination" id="mul">
-    <li><a onclick="add(1)">&laquo;</a></li>
-    <li id="a1" class="active"><a onclick="add(1)">1</a></li>
-    </ul>
+      <div style="float:right; top:10px; width:auto;">
+        <table>
+          <tr><td>
+            <div>
+              <ul class="pagination" id="mul">
+              <li><a onclick="get_data(-1)">&laquo;</a></li>
+              <li id="a1" class="active"><a onclick="get_data(1)" id="at1">1</a></li>
+              <li id="a2"><a onclick="get_data(2)" id="at2">2</a></li>
+              <li id="a3"><a onclick="get_data(3)" id="at3">3</a></li>
+              <li id="a4"><a onclick="get_data(4)" id="at4">4</a></li>
+              <li id="a5"><a onclick="get_data(5)" id="at5">5</a></li>
+              <li><a onclick="get_data(-2)">&raquo;</a></li>
+              </ul>
+            </div>
+          </td><td>
+            <div style="width: 100px;">
+              <div class="input-group">
+                <input type="text" class="form-control" id="jump">
+                <span class="input-group-btn">
+                  <button class="btn btn-default" type="button" onclick="jump_()">
+                    Go!
+                  </button>
+                </span>
+              </div>
+            </div>
+          </td></tr>
+        </table>
+      </div>
     </div>
-  </div>
-</body>
-</html>
+  </body>
+  </html>
