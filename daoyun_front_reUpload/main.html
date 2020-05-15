@@ -3,53 +3,12 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>到云</title>
-<script type="text/javascript">
-var alpha = 0;//关键点
-var timer =null;
-function start(iTarget){
-    var oDiv = document.getElementById('rgt');
-    clearInterval(timer);
-    timer = setInterval(function (){
-        var speed = 0;
-        if(alpha < iTarget){
-            speed = 10;
-        }else{
-            speed = -10;
-        };
-        if(alpha == iTarget){
-            clearInterval(timer)
-        }else{
-            alpha+=speed;//关键点——忘了这一句。
-            oDiv.style.filter = 'alpha(opacity:'+alpha+')';
-            oDiv.style.opacity = alpha/100;
-        }
-    },30);
-}
-//淡出
-function load(){
-    console.log('1');
-    var oDiv = document.getElementById('rgt');
-    oDiv.style.filter = 'alpha(opacity:0)';
-    oDiv.style.opacity = 0;
-    alpha = 0;
-    start(100);//目标100%
-}
-window.onload = function(){
-    sessionStorage.setItem("id", "{{id}}");
-    sessionStorage.setItem("user", "12/er/int/未应用;22/wre/int/未应用;01/3/int/未应用;03/sdf/int/未应用;23/cxv/int/未应用;11/ewr/int/未应用;12/bv/int/未应用;11/hgf/int/未应用;12/1/int/未应用;06/e3/int/未应用");
-    sessionStorage.setItem("class", "12/er/int/未应用;22/wre/int/未应用;01/3/int/未应用;03/sdf/int/未应用;23/cxv/int/未应用;11/ewr/int/未应用;12/bv/int/未应用;11/hgf/int/未应用;12/1/int/未应用;06/e3/int/未应用");
-    sessionStorage.setItem("data", "user/用户/无/未应用;class/课程/无/未应用");
-    sessionStorage.setItem("user-d", "用户ID/int/;用户名/string/;性别/boolean/;年龄/int/");
-    sessionStorage.setItem("class-d", "课程号/int/;课程名/string/;开课/boolean/");
-    window.open('top.html','top');
-}
-</script>
 </head>
 <frameset cols="16%,84%" border="0">
     <frame noresize src="index.html" scrolling="no">
     <frameset rows="8%,*" >
         <frame name="top" noresize src="top.html" scrolling="no">
-        <frame name="rgt" id="rgt" src="home.html" onload="load()">
+        <frame name="rgt" src="home.html">
     </frameset>
 </frameset>
 <noframes></noframes>

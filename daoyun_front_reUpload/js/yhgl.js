@@ -2,7 +2,7 @@ var all_page = 0;
 var page_addr = 1;
 var page_true = 1;
 var page_deviation = 0;
-var len = 3;
+var len = 5;
 var num = 15;
 var data = new Array();
 //更新页面内容
@@ -23,7 +23,7 @@ function add(page){
   for (var i = 0; i < num; i++){
     var temp = data[(page-1)*len+i];
     var node0 = document.createElement("a");
-    node0.setAttribute('href', './editpage-user_'+temp[0]);
+    node0.setAttribute('href', './get?ask=editpage-user&id='+temp[0]);
     node0.setAttribute('target', 'rgt');
     node0.innerHTML = "编辑"
     var row=editTable.insertRow(tar+i);
@@ -147,7 +147,7 @@ function sort_(f){
       document.getElementById("name_flag").innerHTML = "▼";
     }
   }
-  add(1);
+  get_data(1);
 }
 function allcheck(){
   for (var i = 0; i < len; i++){
@@ -177,10 +177,19 @@ function search(){
   */
 }
 window.onload = function(){
-  var s = sessionStorage.getItem("user").split(';');
-  all_page = Math.ceil(s.length/len);
-  for (var i = 0; i < s.length; i++){
-    data[i] = s[i].split('/');
-  }
-  get_data(1);
+  var xhr = new XMLHttpRequest();
+  //监听响应
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState === 4 && (xhr.status === 200 || xhr.status === 304)) {
+      var s = xhr.responseText.split(';');
+      all_page = Math.ceil(s.length/len);
+      for (var i = 0; i < s.length; i++){
+        data[i] = s[i].split('/');
+      }
+      get_data(1);
+    }
+  };
+  var url = '/get?ask=users&id=' + sessionStorage.getItem("id");
+  xhr.open("GET", url, true);
+  xhr.send();
 }

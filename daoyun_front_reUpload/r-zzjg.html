@@ -1,0 +1,108 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>无</title>
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+  <script type="text/javascript" src="js/jquery.min.js"></script>
+</head>
+<body style="padding: 3%;">
+<div class="tree well" id="tree" style="font-size:20px">
+</div>
+<script type="text/javascript">
+  window.onload = function(){
+    var data = "山西大学,数学与计算机学院.数学系.计算机科学与技术,软件学院.软件工程/福州大学,数学与计算机科学学院.数学系.计算机科学与技术,土木工程学院.结构工程.市政工程";
+    var div_ = document.getElementById("tree");
+    var temp0 = data.split('/');
+    var ul_ = document.createElement("ul");
+    for (var i = 0; i < temp0.length; i++){
+      var temp1 = temp0[i].split(',');
+      var li_ = document.createElement("li");
+      var span_ = document.createElement("span");
+      var i_ = document.createElement("i");
+      i_.setAttribute('class', "glyphicon glyphicon-plus-sign");
+      span_.innerHTML = temp1[0]+' ';
+      span_.setAttribute('class', "label label-info");
+      li_.setAttribute('style', "margin:10px;");
+      span_.appendChild(i_);
+      li_.appendChild(span_);
+      ul_.appendChild(li_);
+      var ul__ = document.createElement("ul");
+      for (var j = 1; j < temp1.length; j++){
+        var temp2 = temp1[j].split('.');
+        var li__ = document.createElement("li");
+        var span__ = document.createElement("span");
+        var i__ = document.createElement("i");
+        i__.setAttribute('class', "glyphicon glyphicon-plus-sign");
+        span__.innerHTML = temp2[0]+' ';
+        span__.setAttribute('class', "label label-info");
+        li__.setAttribute('style', "margin:10px;");
+        span__.appendChild(i__);
+        li__.appendChild(span__);
+        ul__.appendChild(li__);
+        var ul___ = document.createElement("ul");
+        for (var k = 1; k < temp2.length; k++){
+          var li___ = document.createElement("li");
+          var span___ = document.createElement("span");
+          span___.innerHTML = temp2[k];
+          span___.setAttribute('class', "label label-info");
+          li___.setAttribute('style', "margin:10px;");
+          li___.appendChild(span___);
+          ul___.appendChild(li___);
+        }
+        var li___ = document.createElement("li");
+        var input___ = document.createElement("input");
+        input___.setAttribute('type', "button");
+        input___.setAttribute('class', "btn btn-default btn-xs");
+        input___.setAttribute('value', "新增");
+        input___.setAttribute('onclick', "add('"+temp1[0]+'/'+temp2[0]+"')");
+        ul___.appendChild(li___);
+        li___.appendChild(input___);
+        li__.appendChild(ul___);
+      }
+      var li__ = document.createElement("li");
+      var input__ = document.createElement("input");
+      input__.setAttribute('type', "button");
+      input__.setAttribute('class', "btn btn-default btn-xs");
+      input__.setAttribute('value', "新增");
+      input__.setAttribute('onclick', "add('"+temp1[0]+"')");
+      ul__.appendChild(li__);
+      li__.appendChild(input__);
+      li_.appendChild(ul__);
+    }
+    var li_ = document.createElement("li");
+    var input_ = document.createElement("input");
+    input_.setAttribute('type', "button");
+    input_.setAttribute('class', "btn btn-default btn-xs");
+    input_.setAttribute('value', "新增");
+    input_.setAttribute('onclick', "add('')");
+    ul_.appendChild(li_);
+    li_.appendChild(input_);
+    div_.appendChild(ul_);
+
+    $('.tree li:has(ul)').addClass('parent_li').find(' > span').attr('title', 'Collapse this branch');
+    $('.tree li.parent_li > span').on('click', function (e) {
+      var children = $(this).parent('li.parent_li').find(' > ul > li');
+      if (children.is(":visible")) {
+        children.hide('fast');
+        $(this).attr('title', 'Expand this branch').find(' > i').addClass('icon-plus-sign').removeClass('icon-minus-sign');
+      } else {
+        children.show('fast');
+        $(this).attr('title', 'Collapse this branch').find(' > i').addClass('icon-minus-sign').removeClass('icon-plus-sign');
+      }
+      e.stopPropagation();
+    });
+    $(".parent_li").find(' > ul > li').hide();
+  }
+
+  function add(p){
+    var x;
+    var person=prompt("隶属于"+p+"，请输入名字","");
+    if (person!=null && person!=""){
+        console.log(person);
+    }
+  }
+
+</script>
+</body>
+</html>
