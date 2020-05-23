@@ -2,52 +2,41 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>教师注册</title>
+<title>忘记密码</title>
+<script type="text/javascript">
+function change(){
+	var token = sessionStorage.getItem("token");
+	var new_ = document.getElementById("new");
+	var old_ = document.getElementById("old");
+	var ag = document.getElementById("ag");
+	console.log(new_.value);
+	if (new_.value != ag.value){
+		ag.value = "";
+		ag.placeholder = "两次密码不一致";
+		return;
+	}
+	else{
+		var data = 'ask=changePW&token='+token+'&old='+old_.value+'&new='+new_.value;
+		var url = '/post';
+		var xhr = new XMLHttpRequest();
+
+		xhr.open('post', url);
+		//设置header
+		xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+		xhr.send(data);
+		xhr.onreadystatechange = function () {
+			if (xhr.readyState === 4 && ( xhr.status === 200 || xhr.status === 304 )){
+				if (xhr.responseText == "ok"){
+					alert("修改成功");
+					window.open('./home.html','_self')
+				}
+			}
+		}
+	}
+}
+
+</script>
 <style>
-body {
-	margin: 0;
-	width: 100%;
-	height: 100vh;
-	font-family: "Exo", sans-serif;
-	color: #00CCCC;
-	background: linear-gradient(-45deg, #00CCCC, #66FF99, #00FFFF, #0099FF);
-	background-size: 400% 400%;
-	animation: gradientBG 15s ease infinite;
-}
-
-@keyframes gradientBG {
-	0% {
-		background-position: 0% 50%;
-	}
-	50% {
-		background-position: 100% 50%;
-	}
-	100% {
-		background-position: 0% 50%;
-	}
-}
-
-.container {
-	width: 100%;
-	position: absolute;
-	top: 35%;
-	text-align: center;
-}
-
-h1 {
-	font-weight: 300;
-}
-
-h3 {
-	color: #eee;
-	font-weight: 100;
-}
-
-h5 {
-	color:#eee;
-	font-weight:300;
-}
-
 a,
 a:hover {
 	text-decoration: none;
@@ -100,30 +89,22 @@ a:hover {
 </style>
 </head>
 <body>
-<form action="/register" method="POST">
 <table width="100%" border="0" cellpadding="0" cellspacing="5">
   <tr>
     <td height="200" align="center">&nbsp;</td>
   </tr>
   <tr>
-    <td align="center"><input name="userid" placeholder="账号" id="ui" class="ur"/></td>
+    <td align="center"><input name="password" type="password" placeholder="旧密码" id="old" class="pw"/></td>
   </tr>
   <tr>
-    <td align="center"><input type="button" value="获取验证码" /></td>
-  </tr>
-  <tr>
-    <td align="center"><input name="username" placeholder="验证码" id="un" class="ur"/></td>
-  </tr>
-  <tr>
-    <td align="center"><input name="password" type="password" placeholder="新密码" id="pw" class="pw"/></td>
+    <td align="center"><input name="password" type="password" placeholder="新密码" id="new" class="pw"/></td>
   </tr>
   <tr>
     <td align="center"><input name="again" type="password" placeholder="再次输入" id="ag" class="pw"/></td>
   </tr>
   <tr>
-    <td align="center"><input type="submit" value="确定" class="bn" /></td>
+    <td align="center"><input type="button" value="确定" class="bn" onclick="change()"/></td>
   </tr>
 </table>
-</form>
 </body>
 </html>

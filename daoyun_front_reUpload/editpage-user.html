@@ -7,6 +7,80 @@
     
 <script type="text/javascript">
     var id = "{{data.id}}"
+    function update(){
+        var up_data = "";
+        up_data = up_data+document.getElementById("id").value+'/';
+        up_data = up_data+document.getElementById("name").value+'/';
+        var obj = document.getElementById("sc");
+        up_data = up_data+obj.options[obj.selectedIndex].text+'/';
+        if (document.getElementById("x1").checked){
+            up_data = up_data+'男/';
+        }
+        else{
+            up_data = up_data+'女/';
+        }
+        up_data = up_data+document.getElementById("other").value;
+
+        var data = 'ask=update&type=user&data='+up_data;
+        var url = '/post';
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', url);
+        //设置header
+        xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+        xhr.send(data);
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && ( xhr.status === 200 || xhr.status === 304 )){
+                console.log(xhr.responseText);
+                alert("修改成功！");
+                window.open('./r-yhgl.html','_self');
+            }
+        }
+    }
+    window.onload = function(){
+        var xhr = new XMLHttpRequest();
+        //监听响应
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && (xhr.status === 200 || xhr.status === 304)) {
+                var choose = xhr.responseText.split(';');
+                var node0 = document.getElementById("sc");
+                for (var i = 0; i < choose.length; i++){
+                    var node1=document.createElement("option");
+                    node1.innerHTML = choose[i].split('/')[0];
+                    node0.appendChild(node1);
+                }
+                
+                if (id != "0"){
+                    var data = sessionStorage.getItem("users").split(',');
+                    for (var i = 0; i < data.length; i++){
+                        var temp = data[i].split('/');
+                        if (temp[0] == id){
+                            console.log(1);
+                            document.getElementById("id").value = temp[0];
+                            document.getElementById("name").value = temp[1];
+                            var obj = document.getElementById("sc");
+                            for (var i = 0; i < choose.length; i++){
+                                if (temp[2] == choose[i].split('/')[0]){
+                                    obj.selectedIndex = i;
+                                    break;
+                                }
+                            }
+                            if (temp[3] == "男"){
+                                document.getElementById("x1").checked = true;
+                            }
+                            else{
+                                document.getElementById("x2").checked = true;
+                            }
+                            document.getElementById("other").value = temp[4];
+                            break;
+                        }
+                    }
+                }
+            }
+        };
+        var url = '/get?ask=roles&token=0';
+        xhr.open("GET", url, true);
+        xhr.send();
+    }
 </script>
 </head>
 
@@ -15,45 +89,43 @@
     <form class="bs-example bs-example-form">
     	<h3>用户</h3>
         <div class="input-group input-group-lg">
-            <span class="input-group-addon">学号</span>
-            <input type="text" class="form-control" placeholder="Twitterhandle">
+            <span class="input-group-addon">学号/工号</span>
+            <input type="text" class="form-control" id="id" placeholder="Twitterhandle">
         </div>
         <br>
         <div class="input-group input-group-lg">
             <span class="input-group-addon">姓名</span>
-            <input type="text" class="form-control" placeholder="Twitterhandle">
+            <input type="text" class="form-control" id="name" placeholder="Twitterhandle">
+        </div>
+        <br>
+        <div>
+            <div>
+                <span class="input-group-addon">角色</span>
+            </div>
+            <div>
+                <select class="form-control" id="sc">
+                </select>
+            </div>
         </div>
         <br>
         <div class="input-group input-group-lg">
-            <span class="input-group-addon">学校</span>
-            <input type="text" class="form-control" placeholder="Twitterhandle">
-        </div>
-        <br>
-        <div class="input-group input-group-lg">
-            <span class="input-group-addon">专业</span>
-            <input type="text" class="form-control" placeholder="Twitterhandle">
-        </div>
-        <br>
-        <div class="input-group input-group-lg">
-            <span>用户状态： </span>
+            <span>用户性别： </span>
             <div class="btn-group" data-toggle="buttons">
               <form>
-                <label class="radio-inline"><input type="radio" name="optradio">正常</label>
-                <label class="radio-inline"><input type="radio" name="optradio">异常</label>
-                <label class="radio-inline"><input type="radio" name="optradio">注销</label>
+                <label class="radio-inline"><input type="radio" id="x1" name="optradio">男</label>
+                <label class="radio-inline"><input type="radio" id="x2" name="optradio">女</label>
               </form>
             </div>
         </div>
         <br>
         <div class="input-group">
             <span class="input-group-addon">个人简介</span>
-            <textarea class="form-control" style="width:100%; height:100px" placeholder="无"></textarea>
+            <textarea class="form-control" style="width:100%; height:100px" id="other" placeholder="无"></textarea>
         </div>
         <br>
         <br>
         <div>
-            <button type="button" class="btn btn-info">确认修改</button>
-            <button type="button" class="btn btn-danger">删除用户</button>
+            <button type="button" class="btn btn-info" onclick="update()">确认修改</button>
             <button type="button" class="btn btn-info" onclick="window.open('./r-yhgl.html','_self')">返回</button>
         </div>
         <br>

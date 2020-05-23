@@ -149,45 +149,25 @@ a:hover {
 	padding: 6px 68px 0 68px;
 }
 </style>
-<script type="text/javascript">
-	function login() {
-		//请求参数、url、创建XMLHttpRequest
-		var data = 'ask=login&name='+document.getElementById("username").value+'&age='+document.getElementById("password").value;
-		var url = '/post';
-		var xhr = new XMLHttpRequest();
-
-		xhr.open('post', url);
-		//设置header
-		xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-		xhr.send(data);
-		xhr.onreadystatechange = function () {
-			if (xhr.readyState === 4 && ( xhr.status === 200 || xhr.status === 304 )){
-				sessionStorage.setItem("id", document.getElementById("username").value);
-				sessionStorage.setItem("data", "user/用户/无/未应用;class/课程/无/未应用");
-				sessionStorage.setItem("user-d", "用户ID/int/;用户名/string/;性别/boolean/;年龄/int/");
-				sessionStorage.setItem("class-d", "课程号/int/;课程名/string/;开课/boolean/");
-				var obj = window;
-				obj.document.write(xhr.responseText);
-			}
-		}
-	}
-</script>
 </head>
 <body>
 <div class="lg">
-    <div class="lg_top">到云</div>
-    <div class="lg_main">
-      <div class="lg_m_1">
-        <input name="username" id="username" placeholder="账号" class="ur" />
-        <input name="password" type="password" id="password" placeholder="密码" class="pw" />
-      </div>
-    </div>
-    <div class="lg_foot">
-		<input type="button" value="登录" class="bn" onclick="login()"/>
-    </div>
-  <div class="lg_end">
-      <input type="button" value="注册" class="bn1" onclick="window.open('./register.html','_self')"/>
-  </div>
+    <div class="lg_top"><img src="./picture/login.png" width="180" height="100"></div>
+	<form action="/post" method="POST">
+		<div class="lg_main">
+		<div class="lg_m_1">
+			<input name="ask" id="ask" value="login" style="display: none;"/>
+			<input name="username" id="username" placeholder="{{data.r1}}" value="{{data.name}}" class="ur" />
+			<input name="password" type="password" id="password" placeholder="{{data.r2}}" class="pw" />
+		</div>
+		</div>
+		<div class="lg_foot">
+			<input type="submit" value="登录" class="bn"/>
+		</div>
+	</form>
+  	<div class="lg_end">
+      	<input type="button" value="注册" class="bn1" onclick="window.open('./register.html','_self')"/>
+  	</div>
 </div>
 </body>
 </html>

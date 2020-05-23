@@ -26,6 +26,11 @@ function add(page){
     node0.setAttribute('href', './get?ask=editpage-class&id='+temp[0]);
     node0.setAttribute('target', 'rgt');
     node0.innerHTML = "编辑"
+    var node1 = document.createElement("a");
+    node1.innerHTML = " | "
+    var node2 = document.createElement("a");
+    node2.setAttribute('href', './get?ask=delete&type=class&id='+temp[0]);
+    node2.innerHTML = "删除"
     var row=editTable.insertRow(tar+i);
     var cell0=row.insertCell(0);
     var cell1=row.insertCell(1);
@@ -37,6 +42,8 @@ function add(page){
     cell2.innerHTML = temp[2];
     cell3.innerHTML = temp[3];
     cell4.appendChild(node0);
+    cell4.appendChild(node1);
+    cell4.appendChild(node2);
     //console.log(temp);
   }
 }
@@ -182,6 +189,7 @@ window.onload = function(){
   xhr.onreadystatechange = function () {
     if (xhr.readyState === 4 && (xhr.status === 200 || xhr.status === 304)) {
       var s = xhr.responseText.split(';');
+      sessionStorage.setItem("classes", s);
       all_page = Math.ceil(s.length/len);
       for (var i = 0; i < s.length; i++){
         data[i] = s[i].split('/');
@@ -189,7 +197,7 @@ window.onload = function(){
       get_data(1);
     }
   };
-  var url = '/get?ask=classes&id=' + sessionStorage.getItem("id");
+  var url = '/get?ask=classes&token=' + sessionStorage.getItem("token");
   xhr.open("GET", url, true);
   xhr.send();
 }

@@ -11,7 +11,18 @@
 </div>
 <script type="text/javascript">
   window.onload = function(){
-    var data = "山西大学,数学与计算机学院.数学系.计算机科学与技术,软件学院.软件工程/福州大学,数学与计算机科学学院.数学系.计算机科学与技术,土木工程学院.结构工程.市政工程";
+    var xhr = new XMLHttpRequest();
+    //监听响应
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState === 4 && (xhr.status === 200 || xhr.status === 304)) {
+        build(xhr.responseText);
+      }
+    };
+    var url = '/get?ask=organization&token=' + sessionStorage.getItem("token");
+    xhr.open("GET", url, true);
+    xhr.send();
+  }
+  function build(data){
     var div_ = document.getElementById("tree");
     var temp0 = data.split('/');
     var ul_ = document.createElement("ul");
@@ -97,9 +108,22 @@
 
   function add(p){
     var x;
-    var person=prompt("隶属于"+p+"，请输入名字","");
-    if (person!=null && person!=""){
-        console.log(person);
+    var nname=prompt("隶属于"+p+"，请输入名字","");
+    if (nname!=null && nname!=""){
+        console.log(nname);
+    }
+    var data = 'ask=update&type=organization&data='+p+'/'+nname;
+    var url = '/post';
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', url);
+    //设置header
+    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    xhr.send(data);
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState === 4 && ( xhr.status === 200 || xhr.status === 304 )){
+        console.log(xhr.responseText);
+        alert("修改成功！");
+      }
     }
   }
 

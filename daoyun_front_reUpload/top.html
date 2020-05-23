@@ -2,17 +2,62 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>无标题文档</title>
-<script>
-window.onload = function(){
-    document.getElementById("id").innerHTML = sessionStorage.getItem("id");
-}
-</script>
+<title>卡片式菜单</title>
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<style type="text/css">
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,
+form,fieldset,input,textarea,p,blockquote,th,td,img { padding: 0; margin: 0; }
+fieldset,img { border: 0; }
+address,caption,cite,code,dfn,em,strong,th,var,i { font-weight: normal; font-style: normal; }
+ol,ul,li { list-style: none; }
+caption,th { text-align: left; }
+h1,h2,h3,h4,h5,h6 { font-weight: normal; font-size: 100%; }
+q:before,q:after { content:''; }
+abbr,acronym { border: 0; }
+/*-- All --*/
+body{ color:#333;font:12px/20px Arial,"Microsoft YaHei","宋体",sans-serif; text-align:center; background:#fff; }
+a{ text-decoration:none}
+p{ color:#333; outline:none;}
+p:hover {color:#f00; }
+table { border-collapse: collapse; border-spacing: 0; empty-cells:show; }
+table td,table th{ border:#ddd solid 1px; padding:5px 10px; }
+table th{ background:#176D97; color:#fff;  }
+table .new td{ color:#f60; font-weight:bold;  }
+.rightNav{ position:fixed; width:170px;  right:0; top:10px; _position:absolute; text-align:left; cursor:pointer; background-image:url(about:blank);  }
+.rightNav p{ display:block; position:relative; height:30px; line-height:30px; margin-bottom:2px; background:#fff; padding-right:10px; width:160px; overflow:hidden;  cursor:pointer; right:-110px; }
+.rightNav p:hover{ text-decoration:none; color:#fff;;  }
+.rightNav p:hover em{ background:#176D97}
+.rightNav p em{ display:block; float:left; width:60px; background:#8DC2BC;; color:#fff; font-size:16px; text-align:center; margin-right:10px;}
+</style>
 </head>
-
-<body bgcolor="#EBC79E">
-</body>
-<div style="padding: 1% 5%;">
-    <a id="id" href="./home.html" target="rgt" style="float: right;"></a>
+<body style="height:600px;">
+<!-- 右侧导航 -->
+<div class="rightNav">
+	<p style="right: -110px; background-color: #8DC2BC;"><em>我的</em><a href="./forget.html" target="rgt">修改密码</a> | <a href="./home.html" target="rgt">注销</a></p>
 </div>
+<script type="text/javascript">
+	var btb=$(".rightNav");
+	var tempS;
+	$(".rightNav").hover(function(){
+			var thisObj = $(this);
+			tempS = setTimeout(function(){
+			thisObj.find("p").each(function(i){
+				var tA=$(this);
+				setTimeout(function(){ tA.animate({right:"0"},300);},50*i);
+			});
+		},200);
+
+	},function(){
+		if(tempS){ clearTimeout(tempS); }
+		$(this).find("p").each(function(i){
+			var tA=$(this);
+			setTimeout(function(){ tA.animate({right:"-110"},300,function(){
+			});},50*i);
+		});
+
+	});
+	var isIE6 = !!window.ActiveXObject&&!window.XMLHttpRequest;
+	if( isIE6 ){ $(window).scroll(function(){ btb.css("top", $(document).scrollTop()+100) }); }
+</script>
+</body>
 </html>

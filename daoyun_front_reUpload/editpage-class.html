@@ -9,23 +9,87 @@
     var id = "{{data.id}}";
     var xx = new Array();
     window.onload = function(){
-      var data = "福州大学,数学与计算机科学学院.数学系.计算机科学与技术,土木工程学院.结构工程.市政工程/山西大学,数学与计算机学院.数学系.计算机科学与技术,软件学院.软件工程";
-      var temp0 = data.split('/');
-      var node0 = document.getElementById("sc0");
-      for (var i = 0; i < temp0.length; i++){
-          var temp1 = temp0[i].split(',');
-          xx[temp1[0]] = new Array();
-          var node1=document.createElement("option");
-          node1.innerHTML = temp1[0];
-          node0.appendChild(node1);
-          for (var j = 1; j < temp1.length; j++){
-              var temp2 = temp1[j].split('.');
-              xx[temp1[0]][temp2[0]] = temp2;
-          }
-      }
+        var xhr = new XMLHttpRequest();
+        //监听响应
+        xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && (xhr.status === 200 || xhr.status === 304)) {
+            build(xhr.responseText);
+        }
+        };
+        var url = '/get?ask=organization&token=' + sessionStorage.getItem("token");
+        xhr.open("GET", url, true);
+        xhr.send();
+    }
+    function build(data){
+        var temp0 = data.split('/');
+        var node0 = document.getElementById("sc0");
+        for (var i = 0; i < temp0.length; i++){
+            var temp1 = temp0[i].split(',');
+            xx[temp1[0]] = new Array();
+            var node1=document.createElement("option");
+            node1.innerHTML = temp1[0];
+            node0.appendChild(node1);
+            for (var j = 1; j < temp1.length; j++){
+                var temp2 = temp1[j].split('.');
+                xx[temp1[0]][temp2[0]] = temp2;
+            }
+        }
+        if (id != "0"){
+            var data_t = sessionStorage.getItem("classes").split(',');
+            for (var i = 0; i < data_t.length; i++){
+                var temp = data_t[i].split('/');
+                if (temp[0] == id){
+                    document.getElementById("name").value = temp[1];
+                    document.getElementById("book").value = temp[2];
+                    var i = 0;
+                    var i_ = "";
+                    var obj = document.getElementById("sc0");
+                    for (var key in xx){
+                        if (key == temp[4]){
+                            obj.selectedIndex = i;
+                            i_ = key;
+                            change(0);
+                            break;
+                        }
+                        i++;
+                    }
+                    var j = 0;
+                    var j_ = "";
+                    var obj = document.getElementById("sc1");
+                    for (var key in xx[i_]){
+                        if (key == temp[5]){
+                            obj.selectedIndex = j;
+                            j_ = key;
+                            change(1);
+                            break;
+                        }
+                        j++;
+                    }
+                    var obj = document.getElementById("sc2");
+                    for (var k = 0; k < xx[i_][j_].length; k++){
+                        if (xx[i_][j_][k] == temp[6]){
+                            console.log(k);
+                            obj.selectedIndex = k-1;
+                            break;
+                        }
+                    }
+                    if (temp[3] == '正常开课'){
+                        document.getElementById("r1").checked = true;
+                    }
+                    else if (temp[3] == '暂停'){
+                        document.getElementById("r2").checked = true;
+                    }
+                    else{
+                        document.getElementById("r3").checked = true;
+                    }
+                    document.getElementById("other").value = temp[7];
+                    document.getElementById("need").value = temp[8];
+                    break;
+                }
+            }
+        }
     }
     function change(p){
-        console.log('0');
         if (p == 0){
             var obj = document.getElementById("sc0");
             var t = obj.options[obj.selectedIndex].text;
@@ -53,18 +117,42 @@
                 console.log('1');
         }
     }
-    function insert(){
-        var data = sessionStorage.getItem("data");
-        var temp = new Array();
-        temp[0] = document.getElementById("ename").value;
-        temp[1] = document.getElementById("cname").value;
-        temp[2] = document.getElementById("type").value;
-        temp[3] = "未应用";
-        console.log(temp);
-        data = temp.join('/') + ';' + data;
-        sessionStorage.setItem("data", data);
-        sessionStorage.setItem(temp[0]+"-d", "");
-        window.open('./r-sjzd.html','_self');
+    function update(){
+        var up_data = "";
+        up_data = up_data+document.getElementById("name").value+'/';
+        up_data = up_data+document.getElementById("book").value+'/';
+        var obj = document.getElementById("sc0");
+        up_data = up_data+obj.options[obj.selectedIndex].text+'/';
+        var obj = document.getElementById("sc1");
+        up_data = up_data+obj.options[obj.selectedIndex].text+'/';
+        var obj = document.getElementById("sc2");
+        up_data = up_data+obj.options[obj.selectedIndex].text+'/';
+        if (document.getElementById("r1").checked){
+            up_data = up_data+'开课/';
+        }
+        else if (document.getElementById("r2").checked){
+            up_data = up_data+'暂停/';
+        }
+        else{
+            up_data = up_data+'结课/';
+        }
+        up_data = up_data+document.getElementById("other").value+'/';
+        up_data = up_data+document.getElementById("need").value;
+
+        var data = 'ask=update&type=class&data='+up_data;
+        var url = '/post';
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', url);
+        //设置header
+        xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+        xhr.send(data);
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && ( xhr.status === 200 || xhr.status === 304 )){
+                console.log(xhr.responseText);
+                alert("修改成功！");
+                window.open('./r-bkgl.html','_self');
+            }
+        }
     }
 </script>
 </head>
@@ -75,12 +163,12 @@
     	<h3>班课</h3>
         <div class="input-group input-group-lg">
             <span class="input-group-addon">课程名</span>
-            <input type="text" class="form-control" placeholder="Twitterhandle">
+            <input type="text" class="form-control" id="name" placeholder="Twitterhandle">
         </div>
         <br>
         <div class="input-group input-group-lg">
-            <span class="input-group-addon">书籍</span>
-            <input type="text" class="form-control" placeholder="Twitterhandle">
+            <span class="input-group-addon">教师</span>
+            <input type="text" class="form-control" id="book" placeholder="Twitterhandle">
         </div>
         <br>
         <div>
@@ -117,36 +205,25 @@
             <span>是否开课： </span>
             <div class="btn-group" data-toggle="buttons">
               <form>
-                <label class="radio-inline"><input type="radio" name="optradio">开课</label>
-                <label class="radio-inline"><input type="radio" name="optradio">暂停</label>
-                <label class="radio-inline"><input type="radio" name="optradio">结课</label>
+                <label class="radio-inline"><input type="radio" id="r1" name="optradio">开课</label>
+                <label class="radio-inline"><input type="radio" id="r2" name="optradio">暂停</label>
+                <label class="radio-inline"><input type="radio" id="r3" name="optradio">结课</label>
               </form>
             </div>
         </div>
         <br>
         <div class="input-group">
             <span class="input-group-addon">课程简介</span>
-            <textarea class="form-control" style="width:100%; height:100px" placeholder="无"></textarea>
+            <textarea class="form-control" style="width:100%; height:100px" id="other" placeholder="无"></textarea>
         </div>
         <br>
         <div class="input-group">
             <span class="input-group-addon">学习要求</span>
-            <textarea class="form-control" style="width:100%; height:100px" placeholder="无"></textarea>
-        </div>
-        <br>
-        <div class="input-group input-group-lg">
-            <span class="input-group-addon">签到经验值</span>
-            <input type="text" class="form-control" placeholder="2">
-        </div>
-        <br>
-        <div class="input-group input-group-lg">
-            <span class="input-group-addon">允许签到范围（km）</span>
-            <input type="text" class="form-control" placeholder="1">
+            <textarea class="form-control" style="width:100%; height:100px" id="need" placeholder="无"></textarea>
         </div>
         <br>
         <div>
-            <button type="button" class="btn btn-info">确认修改</button>
-            <button type="button" class="btn btn-danger">删除课程</button>
+            <button type="button" class="btn btn-info" onclick="update()">确认修改</button>
             <button type="button" class="btn btn-info" onclick="window.open('./r-bkgl.html','_self')">返回</button>
         </div>
         <br>
