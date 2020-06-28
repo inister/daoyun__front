@@ -37,6 +37,14 @@ window.onload = function() {
         upload(e.dataTransfer.files[0]);
         return false;
     }
+
+    var userd = sessionStorage.getItem("user").split('/');
+    console.log(userd);
+    window.document.getElementById("name").value = userd[0];
+    window.document.getElementById("email").value = userd[1];
+    window.document.getElementById("phone").value = userd[2];
+    window.document.getElementById("other").value = userd[3];
+
 }
 </script>
 <style type="text/css">
@@ -88,25 +96,25 @@ window.onload = function() {
         <h2>个人信息</h2>
         <br>
         <div class="input-group">
-            <span class="input-group-addon">昵称</span>
-            <input type="text" class="form-control" placeholder="66666@qq.com">
+            <span class="input-group-addon">姓名</span>
+            <input type="text" id="name" class="form-control" placeholder="66666@qq.com">
         </div>
         <br>
         <div class="input-group">
             <span class="input-group-addon">邮箱</span>
-            <input type="text" class="form-control" placeholder="66666">
+            <input type="text" id="email" class="form-control" placeholder="66666">
         </div>
         <br>
         <br>
         <div class="input-group">
             <span class="input-group-addon">电话</span>
-            <input type="text" class="form-control" placeholder="155255555555">
+            <input type="text" id="phone" class="form-control" placeholder="155255555555">
         </div>
         <br>
         <br>
         <div class="input-group">
             <span class="input-group-addon">简介</span>
-            <textarea class="form-control" style="width:100%; height:100px" placeholder="这个人很懒，什么都没有留下。"></textarea>
+            <textarea class="form-control" id="other" style="width:100%; height:100px" placeholder="这个人很懒，什么都没有留下。"></textarea>
         </div>
         <br>
         <br>

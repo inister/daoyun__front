@@ -13,7 +13,7 @@
         //监听响应
         xhr.onreadystatechange = function () {
         if (xhr.readyState === 4 && (xhr.status === 200 || xhr.status === 304)) {
-            build(xhr.responseText);
+            build(xhr.responseText.split(':')[0]);
         }
         };
         var url = '/get?ask=organization&token=' + sessionStorage.getItem("token");
@@ -39,6 +39,7 @@
             for (var i = 0; i < data_t.length; i++){
                 var temp = data_t[i].split('/');
                 if (temp[0] == id){
+                    document.getElementById("oid").value = temp[0];
                     document.getElementById("name").value = temp[1];
                     document.getElementById("book").value = temp[2];
                     var i = 0;
@@ -88,6 +89,9 @@
                 }
             }
         }
+        else{
+            document.getElementById("oid").value = "new";
+        }
     }
     function change(p){
         if (p == 0){
@@ -119,6 +123,7 @@
     }
     function update(){
         var up_data = "";
+        up_data = up_data+document.getElementById("oid").value+'/';
         up_data = up_data+document.getElementById("name").value+'/';
         up_data = up_data+document.getElementById("book").value+'/';
         var obj = document.getElementById("sc0");
@@ -164,6 +169,7 @@
         <div class="input-group input-group-lg">
             <span class="input-group-addon">课程名</span>
             <input type="text" class="form-control" id="name" placeholder="Twitterhandle">
+            <input type="text" id="oid" value="" style="display: none;">
         </div>
         <br>
         <div class="input-group input-group-lg">

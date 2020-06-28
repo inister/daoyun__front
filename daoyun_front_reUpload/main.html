@@ -6,10 +6,12 @@
 <script type="text/javascript">
 	window.onload = function(){
 		sessionStorage.setItem("token", "{{data.token}}");
+		sessionStorage.setItem("user", "{{data.user}}");
 		sessionStorage.setItem("data", "user/用户/无/未应用;class/课程/无/未应用");
 		sessionStorage.setItem("user-d", "用户ID/int/;用户名/string/;性别/boolean/;年龄/int/");
 		sessionStorage.setItem("class-d", "课程号/int/;课程名/string/;开课/boolean/");
-        console.log(0);
+		console.log(0);
+		window.open('./home.html','rgt');
 	}
 </script>
 </head>

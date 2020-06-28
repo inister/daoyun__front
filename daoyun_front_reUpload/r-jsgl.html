@@ -16,6 +16,7 @@ function show_selected_item_val($item){
   for (var i = 1; i <= 14; i++){
     document.getElementById("inlineCheckbox"+i).checked = temp[i]==0?false:true;
   }
+  document.getElementById("oid").value=temp[15];
 }
 function addrole(){
   var editTable=document.getElementById("role");
@@ -38,6 +39,7 @@ function addrole(){
   for (var i = 1; i <= 14; i++){
     document.getElementById("inlineCheckbox"+i).checked = false;
   }
+  document.getElementById("oid").value="new";
 }
 function OnInput(event) {
   var c1=document.getElementById(sel);
@@ -53,9 +55,10 @@ function update(){
       up_data = up_data+'1/';
     }
     else{
-      up_data = up_data+'0/';
+      up_data = up_data+'0/'
     }
   }
+  up_data = up_data+document.getElementById("oid").value;
 
   var data = 'ask=update&type=role&data='+up_data;
   var url = '/post';
@@ -68,11 +71,12 @@ function update(){
     if (xhr.readyState === 4 && ( xhr.status === 200 || xhr.status === 304 )){
       console.log(xhr.responseText);
       alert("修改成功！");
+      window.open('./r-jsgl.html','_self');
     }
   }
 }
 function del(){
-  var data = 'ask=delete&type=role&role='+document.getElementById("name").value;
+  var data = 'ask=delete&type=role&id='+document.getElementById("oid").value;
   var url = '/post';
   var xhr = new XMLHttpRequest();
   xhr.open('POST', url);
@@ -83,6 +87,7 @@ function del(){
     if (xhr.readyState === 4 && ( xhr.status === 200 || xhr.status === 304 )){
       console.log(xhr.responseText);
       alert("删除成功！");
+      window.open('./r-jsgl.html','_self');
     }
   }
 }
@@ -92,26 +97,31 @@ window.onload = function(){
   xhr.onreadystatechange = function () {
     if (xhr.readyState === 4 && (xhr.status === 200 || xhr.status === 304)) {
       data = xhr.responseText.split(';');
-      var editTable=document.getElementById("role");
-      var j = editTable.rows.length-1;
-      for (var i = 0; i < data.length; i++){
-        var temp = data[i].split('/');
-        var node0=document.createElement("label");
-        var node1=document.createElement("input");
-        node1.type = "radio";
-        node1.name = "radio";
-        node1.id = "radio_"+j;
-        node1.value = temp[0];
-        node1.onclick = function(){show_selected_item_val(this);};
-        var node2=document.createElement("span");
-        node2.id = "radio_"+j+"_s";
-        node2.innerHTML = temp[0];
-        node0.appendChild(node1);
-        node0.appendChild(node2);
-        var row=editTable.insertRow(j);
-        var cell1=row.insertCell(0);
-        cell1.appendChild(node0);
-        j++;
+      if (data.length < 3){
+        window.open('./'+data[0]+'.html','_self');
+      }
+      else{
+        var editTable=document.getElementById("role");
+        var j = editTable.rows.length-1;
+        for (var i = 0; i < data.length; i++){
+          var temp = data[i].split('/');
+          var node0=document.createElement("label");
+          var node1=document.createElement("input");
+          node1.type = "radio";
+          node1.name = "radio";
+          node1.id = "radio_"+j;
+          node1.value = temp[0];
+          node1.onclick = function(){show_selected_item_val(this);};
+          var node2=document.createElement("span");
+          node2.id = "radio_"+j+"_s";
+          node2.innerHTML = temp[0];
+          node0.appendChild(node1);
+          node0.appendChild(node2);
+          var row=editTable.insertRow(j);
+          var cell1=row.insertCell(0);
+          cell1.appendChild(node0);
+          j++;
+        }
       }
     }
   };
@@ -156,6 +166,7 @@ window.onload = function(){
                 <div class="input-group">
                     <span class="input-group-addon">角色名</span>
                     <input type="text" class="form-control" placeholder="twitterhandle" id="name" oninput="OnInput(event)">
+                    <input type="text" id="oid" value="" style="display: none;">
                 </div>
                 <br>
                 

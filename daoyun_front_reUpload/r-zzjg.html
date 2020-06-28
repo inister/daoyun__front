@@ -7,15 +7,41 @@
   <script type="text/javascript" src="js/jquery.min.js"></script>
 </head>
 <body style="padding: 3%;">
-<div class="tree well" id="tree" style="font-size:20px">
+<div style="width: 100%;">
+  <div class="tree well" id="tree" style="font-size:20px; width: 50%; float: left;">
+  </div>
+  <div style="width: 50%; float: right;">
+    <div class="down">
+      <table class="table table-striped" id="stable">
+        <tbody>
+          <tr>
+            <th width="20%">学校</th>
+            <th width="20%">学院</th>
+            <th width="20%">专业</th>
+            <th width="20%">编辑</th>
+            <th>删除</th>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
 </div>
 <script type="text/javascript">
+  var table_data = "";
   window.onload = function(){
     var xhr = new XMLHttpRequest();
     //监听响应
     xhr.onreadystatechange = function () {
       if (xhr.readyState === 4 && (xhr.status === 200 || xhr.status === 304)) {
-        build(xhr.responseText);
+        var tempy = xhr.responseText.split(':')
+        if (tempy.length < 2){
+          window.open('./'+tempy[0]+'.html','_self');
+        }
+        else{
+          build(tempy[0]);
+          table_data = tempy[1];
+          show();
+        }
       }
     };
     var url = '/get?ask=organization&token=' + sessionStorage.getItem("token");
@@ -55,40 +81,16 @@
         for (var k = 1; k < temp2.length; k++){
           var li___ = document.createElement("li");
           var span___ = document.createElement("span");
-          span___.innerHTML = temp2[k];
+          span___.innerHTML = temp2[k].split('-')[0];
           span___.setAttribute('class', "label label-info");
           li___.setAttribute('style', "margin:10px;");
           li___.appendChild(span___);
           ul___.appendChild(li___);
         }
-        var li___ = document.createElement("li");
-        var input___ = document.createElement("input");
-        input___.setAttribute('type', "button");
-        input___.setAttribute('class', "btn btn-default btn-xs");
-        input___.setAttribute('value', "新增");
-        input___.setAttribute('onclick', "add('"+temp1[0]+'/'+temp2[0]+"')");
-        ul___.appendChild(li___);
-        li___.appendChild(input___);
         li__.appendChild(ul___);
       }
-      var li__ = document.createElement("li");
-      var input__ = document.createElement("input");
-      input__.setAttribute('type', "button");
-      input__.setAttribute('class', "btn btn-default btn-xs");
-      input__.setAttribute('value', "新增");
-      input__.setAttribute('onclick', "add('"+temp1[0]+"')");
-      ul__.appendChild(li__);
-      li__.appendChild(input__);
       li_.appendChild(ul__);
     }
-    var li_ = document.createElement("li");
-    var input_ = document.createElement("input");
-    input_.setAttribute('type', "button");
-    input_.setAttribute('class', "btn btn-default btn-xs");
-    input_.setAttribute('value', "新增");
-    input_.setAttribute('onclick', "add('')");
-    ul_.appendChild(li_);
-    li_.appendChild(input_);
     div_.appendChild(ul_);
 
     $('.tree li:has(ul)').addClass('parent_li').find(' > span').attr('title', 'Collapse this branch');
@@ -123,10 +125,127 @@
       if (xhr.readyState === 4 && ( xhr.status === 200 || xhr.status === 304 )){
         console.log(xhr.responseText);
         alert("修改成功！");
+        window.open('./r-zzjg.html','_self');
       }
     }
   }
-
+  function show(){
+    var data_s = table_data.split(';');
+    var tar = 1;
+    var editTable=document.getElementById("stable");
+    var j = editTable.rows.length;
+    for (var i = tar; i < j; i++){
+        editTable.deleteRow(tar);
+    }
+    //console.log(data);
+    var i = 0
+    for (; i < data_s.length; i++){
+      var temp = data_s[i].split('/');
+      var node0 = document.createElement("input");
+      node0.setAttribute('type', "button");
+      node0.setAttribute('value', "修改");
+      node0.setAttribute('onclick', "chi_edit('"+(tar+i)+"')");
+      var node1 = document.createElement("input");
+      node1.setAttribute('type', "button");
+      node1.setAttribute('value', "删除");
+      node1.setAttribute('onclick', "chi_del('"+(tar+i)+"')");
+      var row=editTable.insertRow(tar+i);
+      var cell0=row.insertCell(0);
+      var cell1=row.insertCell(1);
+      var cell2=row.insertCell(2);
+      var cell3=row.insertCell(3);
+      var cell4=row.insertCell(4);
+      cell0.innerHTML = temp[0];
+      cell1.innerHTML = temp[1];
+      cell2.innerHTML = temp[2];
+      cell3.appendChild(node0);
+      cell4.appendChild(node1);
+      //console.log(temp);
+    }
+    var node0 = document.createElement("input");
+    node0.setAttribute('type', "button");
+    node0.setAttribute('value', "追加");
+    node0.setAttribute('onclick', "chi_edit('"+(tar+i)+"')");
+    var row=editTable.insertRow(tar+i);
+    var cell0=row.insertCell(0);
+    var cell1=row.insertCell(1);
+    var cell2=row.insertCell(2);
+    var cell3=row.insertCell(3);
+    var cell4=row.insertCell(4);
+    cell3.appendChild(node0);
+  }
+  function chi_edit(i){
+    var editTable=document.getElementById("stable");
+    editTable.deleteRow(i);
+    var node0 = document.createElement("input");
+    node0.setAttribute('type', "button");
+    node0.setAttribute('value', "确定");
+    node0.setAttribute('onclick', "chi_sure('"+i+"')");
+    var node1 = document.createElement("input");
+    node1.setAttribute('type', "button");
+    node1.setAttribute('value', "取消");
+    node1.setAttribute('onclick', "show()");
+    var node2 = document.createElement("input");
+    node2.setAttribute('type', "text");
+    node2.setAttribute('id', "chi1");
+    var node3 = document.createElement("input");
+    node3.setAttribute('type', "text");
+    node3.setAttribute('id', "chi2");
+    var node4 = document.createElement("input");
+    node4.setAttribute('type', "text");
+    node4.setAttribute('id', "chi3");
+    var row=editTable.insertRow(i);
+    var cell0=row.insertCell(0);
+    var cell1=row.insertCell(1);
+    var cell2=row.insertCell(2);
+    var cell3=row.insertCell(3);
+    var cell4=row.insertCell(4);
+    cell0.appendChild(node2);
+    cell1.appendChild(node3);
+    cell2.appendChild(node4);
+    cell3.appendChild(node0);
+    cell4.appendChild(node1);
+  }
+  function chi_sure(i){
+    var iddd = table_data.split(';');
+    if (i > iddd.length){
+    var data = 'ask=update&type=organization&data=new/'+document.getElementById("chi1").value+'/'+document.getElementById("chi2").value+'/'+document.getElementById("chi3").value;
+    }
+    else{
+    var data = 'ask=update&type=organization&data='+table_data.split(';')[i-1].split('/')[3]+'/'+document.getElementById("chi1").value+'/'+document.getElementById("chi2").value+'/'+document.getElementById("chi3").value;
+    }
+    var url = '/post';
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', url);
+    //设置header
+    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    xhr.send(data);
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState === 4 && ( xhr.status === 200 || xhr.status === 304 )){
+        console.log(xhr.responseText);
+        alert("修改成功！");
+        window.open('./r-zzjg.html','_self');
+      }
+    }
+  }
+  function chi_del(i){
+    var editTable=document.getElementById("stable");
+    editTable.deleteRow(i);
+    var data = 'ask=delete&type=organization&id='+table_data.split(';')[i-1].split('/')[3];
+    var url = '/post';
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', url);
+    //设置header
+    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    xhr.send(data);
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState === 4 && ( xhr.status === 200 || xhr.status === 304 )){
+        console.log(xhr.responseText);
+        alert("修改成功！");
+        window.open('./r-zzjg.html','_self');
+      }
+    }
+  }
 </script>
 </body>
 </html>

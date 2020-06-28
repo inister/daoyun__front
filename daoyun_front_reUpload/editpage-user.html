@@ -7,6 +7,7 @@
     
 <script type="text/javascript">
     var id = "{{data.id}}"
+    var oid = ""
     function update(){
         var up_data = "";
         up_data = up_data+document.getElementById("id").value+'/';
@@ -19,7 +20,8 @@
         else{
             up_data = up_data+'女/';
         }
-        up_data = up_data+document.getElementById("other").value;
+        up_data = up_data+document.getElementById("other").value+'/';
+        up_data = up_data+oid;
 
         var data = 'ask=update&type=user&data='+up_data;
         var url = '/post';
@@ -71,9 +73,13 @@
                                 document.getElementById("x2").checked = true;
                             }
                             document.getElementById("other").value = temp[4];
+                            oid = temp[5];
                             break;
                         }
                     }
+                }
+                else{
+                    oid = "new";
                 }
             }
         };

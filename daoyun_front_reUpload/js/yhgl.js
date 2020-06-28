@@ -29,7 +29,7 @@ function add(page){
     var node1 = document.createElement("a");
     node1.innerHTML = " | "
     var node2 = document.createElement("a");
-    node2.setAttribute('href', './get?ask=delete&type=user&id='+temp[0]);
+    node2.onclick = function(){del(temp[5]);};
     node2.innerHTML = "删除"
     var row=editTable.insertRow(tar+i);
     var cell0=row.insertCell(0);
@@ -45,6 +45,22 @@ function add(page){
     cell4.appendChild(node1);
     cell4.appendChild(node2);
     //console.log(temp);
+  }
+}
+function del(id){
+  var data = 'ask=delete&type=user&id='+id;
+  var url = '/post';
+  var xhr = new XMLHttpRequest();
+  xhr.open('POST', url);
+  //设置header
+  xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+  xhr.send(data);
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState === 4 && ( xhr.status === 200 || xhr.status === 304 )){
+      console.log(xhr.responseText);
+      alert("删除成功！");
+      window.open('./r-yhgl.html','_self');
+    }
   }
 }
 //请求每页数据
@@ -189,12 +205,17 @@ window.onload = function(){
   xhr.onreadystatechange = function () {
     if (xhr.readyState === 4 && (xhr.status === 200 || xhr.status === 304)) {
       var s = xhr.responseText.split(';');
-      sessionStorage.setItem("users", s);
-      all_page = Math.ceil(s.length/len);
-      for (var i = 0; i < s.length; i++){
-        data[i] = s[i].split('/');
+      if (s.length < 3){
+        window.open('./'+s[0]+'.html','_self');
       }
-      get_data(1);
+      else{
+        sessionStorage.setItem("users", s);
+        all_page = Math.ceil(s.length/len);
+        for (var i = 0; i < s.length; i++){
+          data[i] = s[i].split('/');
+        }
+        get_data(1);
+      }
     }
   };
   var url = '/get?ask=users&token=' + sessionStorage.getItem("token");
