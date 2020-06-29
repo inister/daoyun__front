@@ -209,10 +209,10 @@
   function chi_sure(i){
     var iddd = table_data.split(';');
     if (i > iddd.length){
-    var data = 'ask=update&type=organization&data=new/'+document.getElementById("chi1").value+'/'+document.getElementById("chi2").value+'/'+document.getElementById("chi3").value;
+    var data = 'ask=update&type=organization&data=new/'+document.getElementById("chi1").value+'/'+document.getElementById("chi2").value+'/'+document.getElementById("chi3").value+'&token='+sessionStorage.getItem("token");
     }
     else{
-    var data = 'ask=update&type=organization&data='+table_data.split(';')[i-1].split('/')[3]+'/'+document.getElementById("chi1").value+'/'+document.getElementById("chi2").value+'/'+document.getElementById("chi3").value;
+    var data = 'ask=update&type=organization&data='+table_data.split(';')[i-1].split('/')[3]+'/'+document.getElementById("chi1").value+'/'+document.getElementById("chi2").value+'/'+document.getElementById("chi3").value+'&token='+sessionStorage.getItem("token");
     }
     var url = '/post';
     var xhr = new XMLHttpRequest();
@@ -231,7 +231,7 @@
   function chi_del(i){
     var editTable=document.getElementById("stable");
     editTable.deleteRow(i);
-    var data = 'ask=delete&type=organization&id='+table_data.split(';')[i-1].split('/')[3];
+    var data = 'ask=delete&type=organization&id='+table_data.split(';')[i-1].split('/')[3]+'&token='+sessionStorage.getItem("token");
     var url = '/post';
     var xhr = new XMLHttpRequest();
     xhr.open('POST', url);

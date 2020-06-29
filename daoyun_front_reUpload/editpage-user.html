@@ -23,7 +23,7 @@
         up_data = up_data+document.getElementById("other").value+'/';
         up_data = up_data+oid;
 
-        var data = 'ask=update&type=user&data='+up_data;
+        var data = 'ask=update&type=user&data='+up_data+'&token=' + sessionStorage.getItem("token");
         var url = '/post';
         var xhr = new XMLHttpRequest();
         xhr.open('POST', url);
@@ -83,7 +83,7 @@
                 }
             }
         };
-        var url = '/get?ask=roles&token=0';
+        var url = '/get?ask=roles&token=' + sessionStorage.getItem("token");
         xhr.open("GET", url, true);
         xhr.send();
     }

@@ -4,6 +4,12 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>卡片式菜单</title>
 <script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript">
+	function zhuxiao(){
+		window.open("http://47.107.241.123:5000");
+		window.parent.clo();
+	}
+</script>
 <style type="text/css">
 body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,
 form,fieldset,input,textarea,p,blockquote,th,td,img { padding: 0; margin: 0; }
@@ -33,7 +39,7 @@ table .new td{ color:#f60; font-weight:bold;  }
 <body style="height:600px;">
 <!-- 右侧导航 -->
 <div class="rightNav">
-	<p style="right: -110px; background-color: #8DC2BC;"><em>我的</em><a href="./forget.html" target="rgt">修改密码</a> | <a href="./home.html" target="rgt">注销</a></p>
+	<p style="right: -110px; background-color: #8DC2BC;"><em>我的</em><a href="./forget.html" target="rgt">修改密码</a> | <a href="javascript:zhuxiao()">注销</a></p>
 </div>
 <script type="text/javascript">
 	var btb=$(".rightNav");

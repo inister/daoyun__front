@@ -60,7 +60,7 @@ function update(){
   }
   up_data = up_data+document.getElementById("oid").value;
 
-  var data = 'ask=update&type=role&data='+up_data;
+  var data = 'ask=update&type=role&data='+up_data+'&token='+sessionStorage.getItem("token");
   var url = '/post';
   var xhr = new XMLHttpRequest();
   xhr.open('POST', url);
@@ -76,7 +76,7 @@ function update(){
   }
 }
 function del(){
-  var data = 'ask=delete&type=role&id='+document.getElementById("oid").value;
+  var data = 'ask=delete&type=role&id='+document.getElementById("oid").value+'&token='+sessionStorage.getItem("token");
   var url = '/post';
   var xhr = new XMLHttpRequest();
   xhr.open('POST', url);

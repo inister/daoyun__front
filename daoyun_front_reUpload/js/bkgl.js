@@ -48,7 +48,7 @@ function add(page){
   }
 }
 function del(id){
-  var data = 'ask=delete&type=class&id='+id;
+  var data = 'ask=delete&type=class&id='+id+'&token='+sessionStorage.getItem("token");
   var url = '/post';
   var xhr = new XMLHttpRequest();
   xhr.open('POST', url);

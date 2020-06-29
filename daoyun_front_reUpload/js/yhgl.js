@@ -23,7 +23,7 @@ function add(page){
   for (var i = 0; i < num; i++){
     var temp = data[(page-1)*len+i];
     var node0 = document.createElement("a");
-    node0.setAttribute('href', './get?ask=editpage-user&id='+temp[0]);
+    node0.setAttribute('href', './get?ask=editpage-user&id='+temp[0]+'&token=' + sessionStorage.getItem("token"));
     node0.setAttribute('target', 'rgt');
     node0.innerHTML = "编辑"
     var node1 = document.createElement("a");
@@ -48,7 +48,7 @@ function add(page){
   }
 }
 function del(id){
-  var data = 'ask=delete&type=user&id='+id;
+  var data = 'ask=delete&type=user&id='+id+'&token='+sessionStorage.getItem("token");
   var url = '/post';
   var xhr = new XMLHttpRequest();
   xhr.open('POST', url);

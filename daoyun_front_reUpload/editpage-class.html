@@ -144,7 +144,7 @@
         up_data = up_data+document.getElementById("other").value+'/';
         up_data = up_data+document.getElementById("need").value;
 
-        var data = 'ask=update&type=class&data='+up_data;
+        var data = 'ask=update&type=class&data='+up_data+'&token='+sessionStorage.getItem("token");
         var url = '/post';
         var xhr = new XMLHttpRequest();
         xhr.open('POST', url);
