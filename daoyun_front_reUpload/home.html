@@ -46,6 +46,29 @@ window.onload = function() {
     window.document.getElementById("other").value = userd[3];
 
 }
+function update(){
+    var up_data = "";
+    up_data = up_data+document.getElementById("name").value+'/';
+    up_data = up_data+document.getElementById("email").value+'/';
+    up_data = up_data+document.getElementById("phone").value+'/';
+    up_data = up_data+document.getElementById("other").value;
+
+    var data = 'ask=update&type=my&data='+up_data+'&token='+sessionStorage.getItem("token");
+    var url = '/post';
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', url);
+    //设置header
+    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    xhr.send(data);
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && ( xhr.status === 200 || xhr.status === 304 )){
+            console.log(xhr.responseText);
+		    sessionStorage.setItem("user", up_data);
+            alert("修改成功！");
+            window.open('./home.html','_self');
+        }
+    }
+}
 </script>
 <style type="text/css">
 .container {
@@ -124,7 +147,7 @@ window.onload = function() {
         <br>
         <br>
         <div style="text-align:center">
-        <button type="button" class="btn btn-info">更新信息</button>
+        <button type="button" class="btn btn-info" onclick="update()">更新信息</button>
         </div>
     </form>
 </div>
